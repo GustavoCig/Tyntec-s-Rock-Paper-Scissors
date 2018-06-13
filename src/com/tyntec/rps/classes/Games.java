@@ -38,7 +38,7 @@ public class Games {
      */
     public Games start() {
         for(int round = 0; round < numberOfGames; round++) {
-            verifyResult();
+            verifyResult(this.getPlayerOne().getPlay().compare(this.getPlayerTwo().getPlay()));
             this.getPlayerOne().setRandomPlay();
             this.getPlayerTwo().setRandomPlay();
         }
@@ -53,7 +53,7 @@ public class Games {
      */
     public Games startWithPlayerOneFixed() {
         for(int round = 0; round < numberOfGames; round++) {
-            verifyResult();
+            verifyResult(this.getPlayerOne().getPlay().compare(this.getPlayerTwo().getPlay()));
             this.getPlayerTwo().setRandomPlay();
         }
         return this;
@@ -62,8 +62,8 @@ public class Games {
     /**
      * Verifies a game's result and changes each player's values accordingly.
      */
-    private void verifyResult() {
-        switch(this.one.getPlay().compare(this.two.getPlay())) {
+    public void verifyResult(int result) {
+        switch(result) {
             case 1:
                 this.getPlayerOne().addWins();
                 this.getPlayerTwo().addLoses();
