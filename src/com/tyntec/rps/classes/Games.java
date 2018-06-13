@@ -1,24 +1,41 @@
 package com.tyntec.rps.classes;
 
+/**
+ * Characterizes a Games object with two specific players per Games object.
+ * And also a total number of games that are going to happen between these two players.
+ */
 public class Games {
 
     private Player one, two;
-    private int ties, numberOfGames;
+    private int numberOfGames;
 
-    public Games(int quantity) {
+    /**
+     * Constructor for a Games object where both Players have their moves randomly defined.
+     * @param numberOfGames
+     */
+    public Games(int numberOfGames) {
         this.setPlayerOne(new Player());
         this.setPlayerTwo(new Player());
-        this.setNumberOfGames(quantity);
-        this.setTies(0);
+        this.setNumberOfGames(numberOfGames);
     }
 
-    public Games(Player fixed, int quantity) {
-        this.setPlayerOne(fixed);
+    /**
+     * Constructor for a Games object where one of the players is passed as a parameter
+     * while the second player is instantiated with a random move.
+     * @param staticPlayer
+     * @param numberOfGames
+     */
+    public Games(Player staticPlayer, int numberOfGames) {
+        this.setPlayerOne(staticPlayer);
         this.setPlayerTwo(new Player());
-        this.setNumberOfGames(quantity);
-        this.setTies(0);
+        this.setNumberOfGames(numberOfGames);
     }
 
+    /**
+     * Starts the games looping a {numberOfGames} times,
+     * each time a game is played and after that both player's moves are randomized.
+     * @return this
+     */
     public Games start() {
         for(int round = 0; round < numberOfGames; round++) {
             verifyResult();
@@ -28,6 +45,12 @@ public class Games {
         return this;
     }
 
+    /**
+     * Starts the games looping a {numberOfGames} times,
+     * each time a game is played and after that one of the player's moves is randomized
+     * while th other player remains static.
+     * @return this
+     */
     public Games startWithPlayerOneFixed() {
         for(int round = 0; round < numberOfGames; round++) {
             verifyResult();
@@ -36,6 +59,9 @@ public class Games {
         return this;
     }
 
+    /**
+     * Verifies a game's result and changes each player's values accordingly.
+     */
     private void verifyResult() {
         switch(this.one.getPlay().compare(this.two.getPlay())) {
             case 1:
@@ -47,7 +73,8 @@ public class Games {
                 this.getPlayerOne().addLoses();
                 break;
             case 0:
-                this.addTies();
+                this.getPlayerOne().addTies();
+                this.getPlayerTwo().addTies();
                 break;
         }
     }
@@ -76,26 +103,13 @@ public class Games {
         this.numberOfGames = numberOfGames;
     }
 
-    public int getTies() {
-        return this.ties;
-    }
-
-    public void setTies(int ties) {
-        this.ties = ties;
-    }
-
-    public void addTies() {
-        this.ties++;
-    }
-
     @Override
     public String toString() {
-        String[] format = new String[5];
+        String[] format = new String[4];
         format[0] = "Game:";
         format[1] = this.getPlayerOne().toString();
         format[2] = this.getPlayerTwo().toString();
-        format[3] = "Ties - " + this.getTies();
-        format[4] = "Total Games - " + this.getNumberOfGames();
+        format[3] = "Total Games - " + this.getNumberOfGames();
         return String.join("\n", format);
     }
 }
